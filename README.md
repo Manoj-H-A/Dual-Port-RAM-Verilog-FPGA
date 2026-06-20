@@ -1,125 +1,199 @@
-# Dual-Port-RAM-Verilog-FPGA
+# Dual-Port RAM Implementation on Arty A7 FPGA using Verilog HDL
 
-## Overview
+## Project Overview
 
-This project implements a simple Dual-Port RAM (DPRAM) using Verilog HDL and targets the Artix-7 FPGA (Arty A7 Development Board).
+This project demonstrates the design, simulation, synthesis, and FPGA implementation of a **Dual-Port RAM** using **Verilog HDL** on the **Digilent Arty A7-100T FPGA Development Board**.
 
-Dual-Port RAM allows simultaneous access to memory through multiple ports, improving system performance in applications requiring parallel memory operations.
+Dual-Port RAM is a specialized memory architecture that allows simultaneous access to memory through multiple ports. Unlike conventional single-port memory, DPRAM enables parallel read operations, reducing memory bottlenecks and improving overall system performance in digital systems.
 
-## Features
+The design was developed, verified through simulation, synthesized using Xilinx Vivado, and implemented on an Artix-7 FPGA.
 
+The objective of this project is to design a memory system that supports:
+
+* One write port
+* Two independent read ports
 * Simultaneous memory access
-* Independent read ports
-* Synchronous write operation
-* Verilog HDL implementation
-* FPGA implementation on Arty A7 (Artix-7)
-* Simulation and synthesis verified
+* Synchronous operation with clock control
+
+---
+
+## Hardware and Software Used
+
+### Hardware
+
+* Digilent Arty A7-100T FPGA Development Board
+* Xilinx Artix-7 XC7A100T FPGA
+
+### Software
+
+* Xilinx Vivado Design Suite
+* Verilog HDL
 
 ## Design Specifications
 
-| Parameter       | Value             |
-| --------------- | ----------------- |
-| Memory Size     | 4 Locations       |
-| Data Width      | 1 Bit             |
-| Address Width   | 2 Bits            |
-| Write Operation | Synchronous       |
-| Read Operation  | Synchronous       |
-| FPGA Board      | Arty A7 (Artix-7) |
-| HDL             | Verilog           |
+| Parameter       | Specification      |
+| --------------- | ------------------ |
+| Memory Type     | Dual-Port RAM      |
+| Memory Depth    | 4 Locations        |
+| Data Width      | 1 Bit              |
+| Address Width   | 2 Bits             |
+| Write Operation | Synchronous        |
+| Read Operation  | Synchronous        |
+| HDL             | Verilog            |
+| FPGA Board      | Arty A7-100T       |
+| FPGA Device     | XC7A100T (Artix-7) |
 
-## Block Diagram
+---
 
-The design consists of:
+## Key Features
 
-* Memory Array
-* Write Enable Signal
-* Write Address Port
-* Two Independent Read Address Ports
-* Two Read Outputs
-* Common Clock Signal
+* Simultaneous access through two independent read ports
+* Synchronous write operation
+* Parallel memory access
+* Low-latency memory communication
+* FPGA implementation and verification
+* Suitable for embedded and digital system applications
 
-## Working Principle
+---
 
-1. Initialize memory locations.
-2. On every positive clock edge:
+### Operation
 
-   * If Write Enable is high, write data into memory.
-   * Read data simultaneously from two independent read addresses.
-3. Display outputs through both read ports.
+1. Data is written into memory when the write enable signal is active.
+2. Read Port A accesses memory location specified by `raddr_a`.
+3. Read Port B accesses memory location specified by `raddr_b`.
+4. Both read ports can operate simultaneously without interference when accessing different addresses.
 
-## Verilog Module
+---
 
-The Dual-Port RAM is implemented using a memory array and synchronous logic.
+## Algorithm
+
+1. Initialize memory locations to zero.
+2. Wait for the positive edge of the clock.
+3. Check the write enable signal.
+4. If write enable is HIGH:
+
+   * Write input data into the selected memory location.
+5. Read data from address `raddr_a`.
+6. Read data from address `raddr_b`.
+7. Update output ports.
+8. Repeat for every clock cycle.
+
+---
+
+## Verilog Design Description
+
+The RAM is implemented using a register array representing four memory locations.
 
 ### Inputs
 
-* clk
-* we
-* din
-* waddr
-* raddr_a
-* raddr_b
+| Signal  | Description         |
+| ------- | ------------------- |
+| clk     | System Clock        |
+| we      | Write Enable        |
+| din     | Data Input          |
+| waddr   | Write Address       |
+| raddr_a | Read Address Port A |
+| raddr_b | Read Address Port B |
 
 ### Outputs
 
-* a
-* b
+| Signal | Description        |
+| ------ | ------------------ |
+| a      | Data Output Port A |
+| b      | Data Output Port B |
 
-## Simulation
+The design performs write operations and dual read operations synchronously on the rising edge of the clock.
 
-The testbench performs:
+---
 
-* Clock generation
-* Sequential write operations
-* Parallel read operations
-* Functional verification
+## Testbench Verification
 
-Simulation confirms:
+A dedicated testbench was developed to verify the functionality of the design.
 
-* Correct write operation
-* Simultaneous read access
-* Data integrity
+### Testbench Operations
+
+* Generates a clock signal
+* Writes data into memory locations
+* Disables write mode
+* Reads data simultaneously through both ports
+* Verifies memory contents
+
+### Verification Results
+
+* Successful write operations
+* Correct data retrieval
+* Simultaneous dual-port read functionality
+* No memory conflicts during access
+
+---
+
+## Simulation Results
+
+Simulation was performed using Xilinx Vivado Simulator.
+
+Observed Results:
+
+* Data was correctly written into memory.
+* Read Port A successfully accessed selected memory locations.
+* Read Port B simultaneously accessed different memory locations.
+* Outputs matched expected values.
+
+The simulation confirms correct Dual-Port RAM functionality.
+
+---
 
 ## FPGA Implementation
 
-Target Device:
+The design was synthesized and implemented on the **Digilent Arty A7-100T FPGA Board**.
 
-* Xilinx Artix-7 FPGA
-* Arty A7 Development Board
+### Implementation Flow
 
-The design was synthesized and implemented successfully using Xilinx Vivado.
+1. RTL Design Entry
+2. Behavioral Simulation
+3. Synthesis
+4. Implementation
+5. Bitstream Generation
+6. FPGA Programming
+
+The generated bitstream was successfully downloaded onto the FPGA board and verified.
+
+---
 
 ## Applications
+
+Dual-Port RAM is widely used in:
 
 * Multi-Processor Systems
 * FIFO Buffers
 * Embedded Systems
 * Communication Systems
-* Signal Processing Systems
+* Signal Processing Applications
+* High-Speed Data Transfer Systems
+* FPGA-Based Designs
+
+---
 
 ## Advantages
 
-* Faster Memory Access
-* Reduced Latency
-* Parallel Processing Support
-* Efficient Hardware Utilization
+* Faster memory access
+* Parallel processing capability
+* Reduced memory bottlenecks
+* Efficient hardware utilization
+* Lower system latency
+* Improved overall performance
 
-## Results
+## Future Improvements
 
-The Dual-Port RAM was successfully designed, simulated, synthesized, and implemented on the Artix-7 FPGA platform. The design demonstrates parallel memory access using two independent read ports.
+* Increase memory depth and data width
+* Implement true dual-port read/write capability
+* Add memory initialization from external files
+* Develop parameterized RAM architecture
+* Integrate with FPGA-based processors
 
-## Authors
 
-Team 09
 
-* Manoj H A
-* E Sai Lakshmi
-* Aditya P V
-* Yogesh
+## Conclusion
 
-## Tools Used
+This project successfully demonstrates the design and implementation of a Dual-Port RAM using Verilog HDL on the Digilent Arty A7 FPGA platform.
 
-* Verilog 
-* Xilinx Vivado
-* Arty A7 FPGA Board
-
+The design supports simultaneous memory access through two independent read ports, enabling efficient parallel data operations. Simulation and synthesis results validate the correctness of the implementation, making it suitable for high-performance digital and embedded system applications.
