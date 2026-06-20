@@ -1,5 +1,4 @@
 # Dual-Port-RAM-Verilog-FPGA
-# Dual-Port RAM Design using Verilog HDL on Artix-7 FPGA
 
 ## Overview
 
@@ -120,7 +119,7 @@ Team 09
 
 ## Tools Used
 
-* Verilog HDL
+* Verilog 
 * Xilinx Vivado
 * Arty A7 FPGA Board
-* Artix-7 FPGA
+
